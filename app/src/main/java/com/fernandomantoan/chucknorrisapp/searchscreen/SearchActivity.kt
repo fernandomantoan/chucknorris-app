@@ -9,22 +9,25 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fernandomantoan.chucknorrisapp.R
 import com.fernandomantoan.chucknorrisapp.databinding.ActivitySearchBinding
 import com.fernandomantoan.chucknorrisapp.entity.Category
+import com.fernandomantoan.chucknorrisapp.entity.RecentSearch
 import com.fernandomantoan.chucknorrisapp.factsscreen.FactsActivity
-import com.fernandomantoan.chucknorrisapp.factsscreen.FactsUiState
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
-    CategoryAdapter.CategoryClickListener {
+    CategoryAdapter.CategoryClickListener, RecentSearchAdapter.RecentSearchClickListener {
     private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var viewBinding: ActivitySearchBinding
     private lateinit var categoriesAdapter: CategoryAdapter
+    private lateinit var recentSearchesAdapter: RecentSearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +40,12 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
         lifecycleScope.launchWhenStarted {
             searchViewModel.categoryStateFlow.collect { setCategoriesUiState(it) }
         }
+        lifecycleScope.launchWhenStarted {
+            searchViewModel.recentSearchStateFlow.collect { setRecentSearchesUiState(it) }
+        }
 
         searchViewModel.loadCategories()
+        searchViewModel.loadRecentSearches()
     }
 
     override fun onEditorAction(view: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -55,6 +62,11 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
         viewBinding.suggestedRecyclerView.setHasFixedSize(true)
         viewBinding.suggestedRecyclerView.adapter = categoriesAdapter
         // Recent Searches
+        recentSearchesAdapter = RecentSearchAdapter(this)
+        viewBinding.pastSearchesRecyclerView.layoutManager = LinearLayoutManager(this)
+        viewBinding.pastSearchesRecyclerView.addItemDecoration(DividerItemDecoration(this,
+            DividerItemDecoration.VERTICAL))
+        viewBinding.pastSearchesRecyclerView.adapter = recentSearchesAdapter
     }
 
     private fun setCategoriesUiState(uiState: CategoriesUiState) {
@@ -67,6 +79,10 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
                 else -> showCategories(uiState.categories)
             }
         }
+    }
+
+    private fun setRecentSearchesUiState(uiState: RecentSearchesUiState) {
+        showRecentSearches(uiState.recentSearches)
     }
 
     private fun showLoadingCategories() {
@@ -84,6 +100,10 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
     private fun showCategories(categories: List<Category>) {
         hideLoadingCategories()
         categoriesAdapter.setCategories(categories)
+    }
+
+    private fun showRecentSearches(recentSearches: List<RecentSearch>) {
+        recentSearchesAdapter.setRecentSearches(recentSearches)
     }
 
     private fun doSearch() {
@@ -105,10 +125,6 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
         finish()
     }
 
-    override fun categoryClicked(category: Category) {
-        goToSearch(category.name)
-    }
-
     private fun showCategoriesError(messageResource: Int) {
         hideLoadingCategories()
         Snackbar.make(viewBinding.root, getString(messageResource), Snackbar.LENGTH_LONG)
@@ -116,5 +132,13 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
                 searchViewModel.loadCategories()
             }
             .show()
+    }
+
+    override fun categoryClicked(category: Category) {
+        goToSearch(category.name)
+    }
+
+    override fun recentSearchClicked(recentSearch: RecentSearch) {
+        goToSearch(recentSearch.name)
     }
 }

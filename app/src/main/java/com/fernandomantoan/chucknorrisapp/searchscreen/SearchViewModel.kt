@@ -22,6 +22,8 @@ class SearchViewModel @Inject constructor(
 ): ViewModel() {
     private val _categoryStateFlow = MutableStateFlow(CategoriesUiState())
     val categoryStateFlow = _categoryStateFlow.asStateFlow()
+    private val _recentSearchStateFlow = MutableStateFlow(RecentSearchesUiState())
+    val recentSearchStateFlow = _recentSearchStateFlow.asStateFlow()
 
     fun loadCategories() {
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exc -> onCategoryError(exc) }
@@ -30,6 +32,16 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val categories = categoryRepository.getCategories()
             _categoryStateFlow.value = CategoriesUiState(isLoading = false, categories = categories)
+        }
+    }
+
+    fun loadRecentSearches() {
+        _recentSearchStateFlow.value = RecentSearchesUiState(isLoading = true)
+
+        viewModelScope.launch {
+            val recentSearches = factRepository.fetchRecentSearches()
+            _recentSearchStateFlow.value = RecentSearchesUiState(isLoading = false,
+                recentSearches = recentSearches)
         }
     }
 
