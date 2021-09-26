@@ -34,6 +34,8 @@ class FactsAdapter(private val clickListener: FactsClickListener):
             holder.itemView.context.getString(R.string.uncategorized)
         else
             fact.categories[0]
+
+        holder.factValue.textSize = fact.getTextSize()
     }
 
     override fun getItemCount(): Int {
