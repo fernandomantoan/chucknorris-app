@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Chuck Norris App</string>
+    <string name="app_name">Chuck Norris Facts</string>
+    <string name="search">Search Facts</string>
+    <string name="search_term">Enter a search term...</string>
+    <string name="search_term_required">The search term is required.</string>
+    <string name="network_error">A network error has occurred, please check your network connection!</string>
+    <string name="backend_error">A backend error has occurred, please try again later.</string>
+    <string name="retry">Retry</string>
+    <string name="uncategorized">Uncategorized</string>
 </resources>
