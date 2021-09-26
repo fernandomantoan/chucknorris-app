@@ -23,7 +23,8 @@ class FactsAdapter(private val clickListener: FactsClickListener):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListItemFactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ListItemFactBinding.inflate(LayoutInflater.from(parent.context), parent,
+            false)
         return ViewHolder(binding)
     }
 

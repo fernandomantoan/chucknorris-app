@@ -18,7 +18,7 @@ import javax.inject.Inject
 class FactsViewModel @Inject constructor(
     private val factRepository: FactRepository
 ): ViewModel() {
-    private val _factStateFlow = MutableStateFlow<FactsUiState>(FactsUiState())
+    private val _factStateFlow = MutableStateFlow(FactsUiState())
     val factStateFlow = _factStateFlow.asStateFlow()
 
     fun searchFacts(searchTerm: String) {
