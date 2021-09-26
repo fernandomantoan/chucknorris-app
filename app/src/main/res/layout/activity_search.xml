@@ -46,6 +46,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         tools:listitem="@layout/list_item_category"
         android:layout_marginTop="@dimen/suggestedMargin" />
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pastSearchesRecyclerView"
         app:layout_constraintTop_toBottomOf="@+id/suggestedRecyclerView"

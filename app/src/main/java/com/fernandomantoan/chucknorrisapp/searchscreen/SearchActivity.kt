@@ -3,6 +3,7 @@ package com.fernandomantoan.chucknorrisapp.searchscreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -69,11 +70,15 @@ class SearchActivity: AppCompatActivity(), TextView.OnEditorActionListener,
     }
 
     private fun showLoadingCategories() {
-
+        viewBinding.pastSearchesRecyclerView.visibility = View.GONE
+        viewBinding.suggestedRecyclerView.visibility = View.GONE
+        viewBinding.loadingIndicator.visibility = View.VISIBLE
     }
 
     private fun hideLoadingCategories() {
-
+        viewBinding.pastSearchesRecyclerView.visibility = View.VISIBLE
+        viewBinding.suggestedRecyclerView.visibility = View.VISIBLE
+        viewBinding.loadingIndicator.visibility = View.GONE
     }
 
     private fun showCategories(categories: List<Category>) {
