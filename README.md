@@ -13,15 +13,15 @@ Prevent memory leaks, decouples non-view related code from views.
 
 ### Coroutines
 
-Easier and more readable sync execution.
+Easier and more readable async execution.
 
 ### Hilt
 
-Easier setup, good integration with SDKs components.
+Easier setup, good integration with SDK components.
 
 ### Room
 
-Store offline data, integrates with coroutines, easy setup.
+Stores offline data, integrates with coroutines, easy setup.
 
 ## Run
 
