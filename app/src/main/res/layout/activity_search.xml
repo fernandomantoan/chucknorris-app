@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.google.android.material.textfield.TextInputLayout
@@ -23,4 +24,35 @@
             android:imeOptions="actionSend"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/suggestedTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/suggestions"
+        app:layout_constraintTop_toBottomOf="@+id/searchLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/suggestedMargin"
+        android:layout_marginStart="@dimen/suggestedMarginLeft"
+        android:layout_marginEnd="@dimen/suggestedMarginLeft" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggestedRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/suggestedTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/pastSearchesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:listitem="@layout/list_item_category"
+        android:layout_marginTop="@dimen/suggestedMargin" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pastSearchesRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/suggestedRecyclerView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHorizontal_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

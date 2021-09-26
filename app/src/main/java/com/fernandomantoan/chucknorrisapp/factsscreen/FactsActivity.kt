@@ -72,6 +72,7 @@ class FactsActivity: AppCompatActivity(), FactsAdapter.FactsClickListener {
             this.searchTerm = data?.getStringExtra(SEARCH_TERM)
             Timber.d("Searching for %s...", searchTerm)
             searchTerm?.let {
+                supportActionBar?.subtitle = it
                 factsViewModel.searchFacts(it)
             }
         }

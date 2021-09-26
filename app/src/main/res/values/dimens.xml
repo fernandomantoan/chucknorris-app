@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fact_margin">6dp</dimen>
+    <dimen name="categoryPadding">5dp</dimen>
+    <dimen name="suggestedMargin">2dp</dimen>
+    <dimen name="suggestedMarginLeft">5dp</dimen>
 </resources>
