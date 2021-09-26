@@ -17,7 +17,6 @@ import com.fernandomantoan.chucknorrisapp.searchscreen.SearchActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FactsActivity: AppCompatActivity(), FactsAdapter.FactsClickListener {
@@ -65,12 +64,9 @@ class FactsActivity: AppCompatActivity(), FactsAdapter.FactsClickListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.d("On Activity Result...")
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.d("On Activity Result...")
         if (requestCode == SEARCH_ACTIVITY && resultCode == RESULT_OK) {
             this.searchTerm = data?.getStringExtra(SEARCH_TERM)
-            Timber.d("Searching for %s...", searchTerm)
             searchTerm?.let {
                 supportActionBar?.subtitle = it
                 factsViewModel.searchFacts(it)
@@ -117,7 +113,13 @@ class FactsActivity: AppCompatActivity(), FactsAdapter.FactsClickListener {
     }
 
     override fun factClicked(fact: Fact) {
-        Timber.d("Fact clicked %s", fact.url)
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, fact.url)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     companion object {
